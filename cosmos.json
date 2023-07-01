@@ -1,0 +1,491 @@
+
+const options: Options = {
+  wallThickness: 4,
+  webThickness: 5,
+  screwIndices: [1, 9, 15, 19],
+  rounded: { top: { horizontal: 4, vertical: 10 }, side: { divisor: 3 } },
+  connector: "usb",
+  connectorIndex: 20,
+  wristRest: false,
+  caseType: "normal"
+}
+// NOTE: Screws / the connector with
+// negative indices are placed automatically.
+// In the basic/advanecd tab, these values were:
+// screwIndices: [14, 18, 5, 9]
+// connectorIndex: 21
+const curvature = {
+  curvatureOfColumn: 15,
+  curvatureOfRow: 5,
+  spacingInColumn: 3,
+  spacingInRow: 4
+}
+/**
+ * Useful for setting a different curvature
+ * for the pinky keys.
+ */
+const pinkyCurvature = {
+  ...curvature,
+  curvatureOfColumn: 15
+}
+/**
+ * The plane used to position the upper keys.
+ * It's rotated by the tenting and x rotation
+ * then translated by the z offset.
+ */ 
+const upperKeysPlane = new Trsf()
+  .rotate(12, [0, 0, 0], [0, 1, 0], false)
+  .rotate(1, [0, 0, 0], [1, 0, 0], false)
+  .translate(0, 0, 4, false)
+const flat = {
+  curvatureOfColumn: 0,
+  curvatureOfRow: 0,
+  spacingInColumn: 0,
+  spacingInRow: 0
+}
+const oledPlane = {
+  curvatureOfColumn: 45,
+  curvatureOfRow: 0,
+  spacingInColumn: 0,
+  spacingInRow: 0
+}
+/** Definitions for the upper keys. */
+const fingers: Key[] = [
+  {
+    type: "oled-128x32",
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...oledPlane,
+        column: -5,
+        row: -0.5
+      })
+      .translate(-20, -5, 51)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 2,
+      letter: "y"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -4,
+        row: -1
+      })
+      .transformBy(upperKeysPlane)
+      .translate(0, 0, 0)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 3,
+      letter: "h"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -4,
+        row: 0
+      })
+      .transformBy(upperKeysPlane)
+      .translate(0, 0, 0)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 4,
+      letter: "n"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -4,
+        row: 1
+      })
+      .transformBy(upperKeysPlane)
+      .translate(0, 0, 0)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 2,
+      letter: "u"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -3,
+        row: -1
+      })
+      .transformBy(upperKeysPlane)
+      .translate(0, 0, 0)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 3,
+      home: "index",
+      letter: "j"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -3,
+        row: 0
+      })
+      .transformBy(upperKeysPlane)
+      .translate(0, 0, 0)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 4,
+      letter: "m"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -3,
+        row: 1
+      })
+      .transformBy(upperKeysPlane)
+      .translate(0, 0, 0)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 2,
+      letter: "i"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -2,
+        row: -1
+      })
+      .transformBy(upperKeysPlane)
+      .translate(-2.5, 2.8, -5)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 3,
+      home: "middle",
+      letter: "k"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -2,
+        row: 0
+      })
+      .transformBy(upperKeysPlane)
+      .translate(-2.5, 2.8, -5)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 4,
+      letter: ","
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -2,
+        row: 1
+      })
+      .transformBy(upperKeysPlane)
+      .translate(-2.5, 2.8, -5)
+  },
+  {
+    type: "mx-pcb",
+    keycap: { profile: "mt3", row: 5 },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -2,
+        row: 2
+      })
+      .transformBy(upperKeysPlane)
+      .translate(-2.5, 2.8, -5)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 2,
+      letter: "o"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -1,
+        row: -1
+      })
+      .transformBy(upperKeysPlane)
+      .translate(-1, 0, 0)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 3,
+      home: "ring",
+      letter: "l"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -1,
+        row: 0
+      })
+      .transformBy(upperKeysPlane)
+      .translate(-1, 0, 0)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 4,
+      letter: "."
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -1,
+        row: 1
+      })
+      .transformBy(upperKeysPlane)
+      .translate(-1, 0, 0)
+  },
+  {
+    type: "mx-pcb",
+    keycap: { profile: "mt3", row: 5 },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...curvature,
+        column: -1,
+        row: 2
+      })
+      .transformBy(upperKeysPlane)
+      .translate(-1, 0, 0)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 2,
+      letter: "p"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...pinkyCurvature,
+        column: 0,
+        row: -1
+      })
+      .transformBy(upperKeysPlane)
+      .translate(0, -13, 6)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 3,
+      home: "pinky",
+      letter: ";"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...pinkyCurvature,
+        column: 0,
+        row: 0
+      })
+      .transformBy(upperKeysPlane)
+      .translate(0, -13, 6)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 4,
+      letter: "/"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...pinkyCurvature,
+        column: 0,
+        row: 1
+      })
+      .transformBy(upperKeysPlane)
+      .translate(0, -13, 6)
+  },
+  {
+    type: "mx-pcb",
+    keycap: { profile: "mt3", row: 2 },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...pinkyCurvature,
+        column: 1,
+        row: -1
+      })
+      .transformBy(upperKeysPlane)
+      .translate(0, -13, 6)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 3,
+      letter: "'"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...pinkyCurvature,
+        column: 1,
+        row: 0
+      })
+      .transformBy(upperKeysPlane)
+      .translate(0, -13, 6)
+  },
+  {
+    type: "mx-pcb",
+    keycap: { profile: "mt3", row: 4 },
+    aspect: 1,
+    position: new Trsf()
+      .placeOnMatrix({
+        ...pinkyCurvature,
+        column: 1,
+        row: 1
+      })
+      .transformBy(upperKeysPlane)
+      .translate(.0000000001, -13, 6)
+  }
+]
+/**
+ * The plane used to position the thumbs.
+ * It's defined using a nearby key position,
+ * then offset by some amount.
+ */
+const thumbOrigin = new Trsf()
+  .translateBy(new Trsf()
+    .placeOnMatrix({
+      ...curvature,
+      row: 1,
+      column: -3
+    })
+    .transformBy(upperKeysPlane)
+    .translate(8.75, -8.75, 0)
+  )
+  .translate(6, -3, 7)
+/** The curvature of the thumb cluster. */
+const thumbCurvature = {
+  curvatureOfRow: 0,
+  curvatureOfColumn: 0,
+  spacingInRow: 2.5,
+  spacingInColumn: 2.5
+}
+const thumbs: Key[] = [
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 5,
+      letter: "L1",
+    },
+    aspect: 1,
+    position: new Trsf()
+      .rotate(8, [0, 0, 0], [1, 0, 0])
+      .rotate(0, [0, 0, 0], [0, 1, 0])
+      .rotate(10, [0, 0, 0], [0, 0, 1])
+      .transformBy(thumbOrigin)
+      .translate(-14.8, -10, 0)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 5,
+      letter: "L2",
+      home: "thumb"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .rotate(10, [0, 0, 0], [1, 0, 0])
+      .rotate(12, [0, 0, 0], [0, 1, 0])
+      .rotate(26, [0, 0, 0], [0, 0, 1])
+      .transformBy(thumbOrigin)
+      .translate(-37, -17, 2.5)
+  },
+  {
+    type: "mx-pcb",
+    keycap: {
+      profile: "mt3",
+      row: 5,
+      letter: "L3"
+    },
+    aspect: 1,
+    position: new Trsf()
+      .rotate(15, [0, 0, 0], [1, 0, 0])
+      .rotate(25, [0, 0, 0], [0, 1, 0])
+      .rotate(45.5, [0, 0, 0], [0, 0, 1])
+      .transformBy(thumbOrigin)
+      // .translate(-52, -26, -12)
+      .translate(-55.5, -30.5, 10)
+  },
+  {
+    type: "ec11",
+    aspect: 1,
+    position: new Trsf()
+      .rotate(15, [0, 0, 0], [1, 0, 0])
+      .rotate(18.5, [0, 0, 0], [0, 1, 0])
+      .rotate(38, [0, 0, 0], [0, 0, 1])
+      .transformBy(thumbOrigin)
+      .translate(-58, -5, 13)
+  },
+]
+const wristRestOrigin = new Trsf()
+  .translateBy(new Trsf()
+    .placeOnMatrix({
+      ...curvature,
+      row: 1,
+      column: -3
+    })
+    .transformBy(upperKeysPlane)
+    .translate(8.75, -8.75, 0)
+  )
+  .translate(6, -3, 7)
+export default {
+  ...options,
+  wristRestOrigin,
+  keys: [...fingers, ...thumbs],
+}
